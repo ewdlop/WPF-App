@@ -6,6 +6,8 @@ using Serilog;
 using System.Windows;
 using WpfApp2.ViewModels;
 using WpfApp2.ViewModels.Base;
+using WpfApp2.Services;
+using WpfApp2.Services.Interfaces;
 
 namespace WpfApp2;
 
@@ -90,14 +92,12 @@ public partial class App : Application
         services.AddTransient<EmployeeViewModel>();
         services.AddTransient<ProjectViewModel>();
 
-        // Register Services (will be implemented later)
-        // services.AddScoped<IEmployeeService, EmployeeService>();
-        // services.AddScoped<IProjectService, ProjectService>();
-        // services.AddScoped<IAuthenticationService, AuthenticationService>();
-
-        // Register Repositories (will be implemented later)
-        // services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-        // services.AddScoped<IProjectRepository, ProjectRepository>();
+        // Register Core Services
+        services.AddSingleton<IAuditService, AuditService>();
+        services.AddSingleton<INotificationService, NotificationService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<IDepartmentService, DepartmentService>();
 
         // Register Database Context (will be implemented later)
         // services.AddDbContext<ApplicationDbContext>(options =>
@@ -109,6 +109,9 @@ public partial class App : Application
         // Register other services
         services.AddSingleton<ILoggerFactory, LoggerFactory>();
         services.AddLogging();
+
+        // Register HTTP Client for external API calls (if needed)
+        services.AddHttpClient();
     }
 
     private void ConfigureSerilog()
