@@ -32,6 +32,12 @@ public class Department
 
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
+    [StringLength(100)]
+    public string CreatedBy { get; set; } = string.Empty;
+
+    [StringLength(100)]
+    public string UpdatedBy { get; set; } = string.Empty;
+
     // Navigation properties
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();

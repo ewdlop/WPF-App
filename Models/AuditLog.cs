@@ -24,6 +24,12 @@ public class AuditLog
 
     [Required]
     [StringLength(100)]
+    public string EntityType { get; set; } = string.Empty;
+
+    public int? EntityId { get; set; }
+
+    [Required]
+    [StringLength(100)]
     public string TableName { get; set; } = string.Empty;
 
     public int? RecordId { get; set; }
@@ -45,6 +51,8 @@ public class AuditLog
     public string? OldValues { get; set; }
 
     public string? NewValues { get; set; }
+
+    public string? AdditionalData { get; set; }
 
     [StringLength(45)]
     public string? IpAddress { get; set; }

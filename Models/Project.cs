@@ -114,6 +114,9 @@ public class ProjectAssignment
     [StringLength(100)]
     public string Role { get; set; } = string.Empty;
 
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal? HourlyRate { get; set; }
+
     public DateTime AssignedDate { get; set; } = DateTime.UtcNow;
 
     public DateTime? UnassignedDate { get; set; }
@@ -125,6 +128,17 @@ public class ProjectAssignment
 
     [StringLength(500)]
     public string? Notes { get; set; }
+
+    // Audit fields
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    [StringLength(100)]
+    public string CreatedBy { get; set; } = string.Empty;
+
+    [StringLength(100)]
+    public string UpdatedBy { get; set; } = string.Empty;
 }
 
 public class ProjectMilestone
@@ -154,6 +168,17 @@ public class ProjectMilestone
 
     [Range(0, 100)]
     public int ProgressPercentage { get; set; }
+
+    // Audit fields
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    [StringLength(100)]
+    public string CreatedBy { get; set; } = string.Empty;
+
+    [StringLength(100)]
+    public string UpdatedBy { get; set; } = string.Empty;
 
     // Computed properties
     [NotMapped]
