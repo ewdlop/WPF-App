@@ -385,7 +385,7 @@ public class EmployeeViewModel : BaseViewModel
                 FirstName = SelectedEmployee.FirstName,
                 LastName = SelectedEmployee.LastName,
                 Email = SelectedEmployee.Email,
-                PhoneNumber = SelectedEmployee.Phone,
+                PhoneNumber = SelectedEmployee.PhoneNumber,
                 Position = SelectedEmployee.Position,
                 DepartmentId = SelectedEmployee.DepartmentId,
                 Salary = SelectedEmployee.Salary,

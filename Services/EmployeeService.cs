@@ -44,6 +44,12 @@ public class EmployeeService : IEmployeeService
     {
         _logger.LogInformation("Creating new employee: {EmployeeName}", employee.FullName);
         
+        // Auto-generate EmployeeNumber if not provided
+        if (string.IsNullOrWhiteSpace(employee.EmployeeNumber))
+        {
+            employee.EmployeeNumber = await GenerateEmployeeNumberAsync();
+        }
+        
         // Validate employee data
         if (!await ValidateEmployeeDataAsync(employee))
         {
@@ -68,6 +74,22 @@ public class EmployeeService : IEmployeeService
 
         _logger.LogInformation("Employee created successfully: {EmployeeId}", employee.Id);
         return employee;
+    }
+
+    private async Task<string> GenerateEmployeeNumberAsync()
+    {
+        await Task.Delay(10);
+        var maxNumber = 0;
+        
+        foreach (var emp in _employees)
+        {
+            if (emp.EmployeeNumber.StartsWith("EMP") && int.TryParse(emp.EmployeeNumber.Substring(3), out var num))
+            {
+                maxNumber = Math.Max(maxNumber, num);
+            }
+        }
+        
+        return $"EMP{(maxNumber + 1):D3}";
     }
 
     public async Task<Employee> UpdateEmployeeAsync(Employee employee)
