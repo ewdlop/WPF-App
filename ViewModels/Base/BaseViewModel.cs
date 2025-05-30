@@ -169,6 +169,28 @@ public abstract class BaseViewModel : INotifyPropertyChanged, IDisposable
         OnPropertyChanged(nameof(HasErrors));
     }
 
+    protected void AddError(string propertyName, string error)
+    {
+        SetError(propertyName, error);
+    }
+
+    protected virtual void ValidateProperty(string propertyName)
+    {
+        // Override in derived classes for property-specific validation
+        // This method is called when properties change and need validation
+    }
+
+    protected void SetErrorMessage(string message)
+    {
+        _logger.LogError(message);
+        // You might want to set a general error message property here
+    }
+
+    protected void ClearErrors()
+    {
+        ClearAllErrors();
+    }
+
     #endregion
 
     #region Lifecycle Methods

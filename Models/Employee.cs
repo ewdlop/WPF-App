@@ -17,6 +17,10 @@ public class Employee
     public string LastName { get; set; } = string.Empty;
 
     [Required]
+    [StringLength(20)]
+    public string EmployeeNumber { get; set; } = string.Empty;
+
+    [Required]
     [EmailAddress]
     [StringLength(255)]
     public string Email { get; set; } = string.Empty;
@@ -35,12 +39,25 @@ public class Employee
     [ForeignKey(nameof(DepartmentId))]
     public virtual Department Department { get; set; } = null!;
 
+    public int? ManagerId { get; set; }
+
+    [ForeignKey(nameof(ManagerId))]
+    public virtual Employee? Manager { get; set; }
+
     [Column(TypeName = "decimal(18,2)")]
     public decimal Salary { get; set; }
 
     public DateTime HireDate { get; set; }
 
     public DateTime? TerminationDate { get; set; }
+
+    public DateTime? DateOfBirth { get; set; }
+
+    [StringLength(500)]
+    public string? Address { get; set; }
+
+    [StringLength(255)]
+    public string? EmergencyContact { get; set; }
 
     public bool IsActive { get; set; } = true;
 
@@ -63,10 +80,14 @@ public class Employee
     // Navigation properties
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
     public virtual ICollection<AuditLog> AuditLogs { get; set; } = new List<AuditLog>();
+    public virtual ICollection<Employee> DirectReports { get; set; } = new List<Employee>();
 
     // Computed properties
     [NotMapped]
     public string FullName => $"{FirstName} {LastName}";
+
+    [NotMapped]
+    public string Phone => PhoneNumber ?? string.Empty;
 
     [NotMapped]
     public int YearsOfService => 

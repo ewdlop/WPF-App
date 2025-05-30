@@ -52,6 +52,12 @@ public class NotificationService : INotificationService
         await ShowNotificationAsync(title ?? "Information", message, NotificationType.Info);
     }
 
+    public async Task ShowToastAsync(string title, string message, NotificationType type = NotificationType.Info)
+    {
+        // For now, just delegate to ShowNotificationAsync
+        await ShowNotificationAsync(title, message, type);
+    }
+
     #endregion
 
     #region User Notification Management

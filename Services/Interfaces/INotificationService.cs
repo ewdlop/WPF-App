@@ -40,6 +40,7 @@ public interface INotificationService
     Task ShowWarningAsync(string message, string? title = null);
     Task ShowErrorAsync(string message, string? title = null);
     Task ShowInfoAsync(string message, string? title = null);
+    Task ShowToastAsync(string title, string message, NotificationType type = NotificationType.Info);
 
     // User Notification Management
     Task<Notification> CreateUserNotificationAsync(string userId, string title, string message, 

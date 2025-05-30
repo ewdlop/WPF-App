@@ -323,12 +323,19 @@ public class EmployeeService : IEmployeeService
         if (string.IsNullOrWhiteSpace(employee.FirstName) || 
             string.IsNullOrWhiteSpace(employee.LastName) ||
             string.IsNullOrWhiteSpace(employee.Email) ||
-            string.IsNullOrWhiteSpace(employee.Position))
+            string.IsNullOrWhiteSpace(employee.Position) ||
+            string.IsNullOrWhiteSpace(employee.EmployeeNumber))
         {
             return false;
         }
 
         if (!await IsEmailUniqueAsync(employee.Email, employee.Id > 0 ? employee.Id : null))
+        {
+            return false;
+        }
+
+        // Check if employee number is unique
+        if (!await IsEmployeeNumberUniqueAsync(employee.EmployeeNumber, employee.Id > 0 ? employee.Id : null))
         {
             return false;
         }
@@ -341,6 +348,13 @@ public class EmployeeService : IEmployeeService
         return true;
     }
 
+    public async Task<bool> IsEmployeeNumberUniqueAsync(string employeeNumber, int? excludeEmployeeId = null)
+    {
+        await Task.Delay(10);
+        return !_employees.Any(e => e.EmployeeNumber.Equals(employeeNumber, StringComparison.OrdinalIgnoreCase) && 
+                                   (!excludeEmployeeId.HasValue || e.Id != excludeEmployeeId.Value));
+    }
+
     #endregion
 
     #region Private Methods
@@ -349,11 +363,11 @@ public class EmployeeService : IEmployeeService
     {
         var sampleEmployees = new[]
         {
-            new Employee { Id = _nextId++, FirstName = "John", LastName = "Doe", Email = "john.doe@company.com", Position = "Software Engineer", DepartmentId = 1, Salary = 75000, HireDate = DateTime.UtcNow.AddDays(-365), IsActive = true },
-            new Employee { Id = _nextId++, FirstName = "Jane", LastName = "Smith", Email = "jane.smith@company.com", Position = "Project Manager", DepartmentId = 2, Salary = 85000, HireDate = DateTime.UtcNow.AddDays(-200), IsActive = true },
-            new Employee { Id = _nextId++, FirstName = "Bob", LastName = "Johnson", Email = "bob.johnson@company.com", Position = "Designer", DepartmentId = 3, Salary = 65000, HireDate = DateTime.UtcNow.AddDays(-150), IsActive = true },
-            new Employee { Id = _nextId++, FirstName = "Alice", LastName = "Brown", Email = "alice.brown@company.com", Position = "Senior Developer", DepartmentId = 1, Salary = 95000, HireDate = DateTime.UtcNow.AddDays(-500), IsActive = true },
-            new Employee { Id = _nextId++, FirstName = "Charlie", LastName = "Wilson", Email = "charlie.wilson@company.com", Position = "QA Engineer", DepartmentId = 1, Salary = 60000, HireDate = DateTime.UtcNow.AddDays(-100), IsActive = false }
+            new Employee { Id = _nextId++, EmployeeNumber = "EMP001", FirstName = "John", LastName = "Doe", Email = "john.doe@company.com", Position = "Software Engineer", DepartmentId = 1, Salary = 75000, HireDate = DateTime.UtcNow.AddDays(-365), IsActive = true },
+            new Employee { Id = _nextId++, EmployeeNumber = "EMP002", FirstName = "Jane", LastName = "Smith", Email = "jane.smith@company.com", Position = "Project Manager", DepartmentId = 2, Salary = 85000, HireDate = DateTime.UtcNow.AddDays(-200), IsActive = true },
+            new Employee { Id = _nextId++, EmployeeNumber = "EMP003", FirstName = "Bob", LastName = "Johnson", Email = "bob.johnson@company.com", Position = "Designer", DepartmentId = 3, Salary = 65000, HireDate = DateTime.UtcNow.AddDays(-150), IsActive = true },
+            new Employee { Id = _nextId++, EmployeeNumber = "EMP004", FirstName = "Alice", LastName = "Brown", Email = "alice.brown@company.com", Position = "Senior Developer", DepartmentId = 1, Salary = 95000, HireDate = DateTime.UtcNow.AddDays(-500), IsActive = true },
+            new Employee { Id = _nextId++, EmployeeNumber = "EMP005", FirstName = "Charlie", LastName = "Wilson", Email = "charlie.wilson@company.com", Position = "QA Engineer", DepartmentId = 1, Salary = 60000, HireDate = DateTime.UtcNow.AddDays(-100), IsActive = false }
         };
 
         _employees.AddRange(sampleEmployees);

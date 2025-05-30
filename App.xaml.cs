@@ -91,6 +91,7 @@ public partial class App : Application
         services.AddTransient<DashboardViewModel>();
         services.AddTransient<EmployeeViewModel>();
         services.AddTransient<ProjectViewModel>();
+        services.AddTransient<DepartmentViewModel>();
 
         // Register Core Services
         services.AddSingleton<IAuditService, AuditService>();
