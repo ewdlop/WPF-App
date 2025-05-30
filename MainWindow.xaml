@@ -1,0 +1,321 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="ModernWPF Enterprise Manager" 
+        Height="900" Width="1400"
+        MinHeight="600" MinWidth="800"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Window.Resources>
+        <!-- Custom styles will be defined here -->
+        <Style x:Key="NavigationButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="16,12"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+        </Style>
+    </Window.Resources>
+
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid>
+            <Grid.RowDefinitions>
+                <!-- Top Bar -->
+                <RowDefinition Height="Auto"/>
+                <!-- Main Content -->
+                <RowDefinition Height="*"/>
+                <!-- Status Bar -->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Application Bar -->
+            <materialDesign:ColorZone Grid.Row="0" 
+                                      Padding="16" 
+                                      materialDesign:ElevationAssist.Elevation="Dp4"
+                                      Mode="PrimaryMid">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Menu Toggle Button -->
+                    <Button Grid.Column="0" 
+                            x:Name="MenuToggleButton"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            Foreground="White"
+                            Click="MenuToggleButton_Click">
+                        <materialDesign:PackIcon Kind="Menu" Width="24" Height="24"/>
+                    </Button>
+
+                    <!-- Application Title -->
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal" 
+                                Margin="16,0,0,0"
+                                VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="Business" 
+                                                 Width="28" Height="28" 
+                                                 Foreground="White"
+                                                 Margin="0,0,12,0"/>
+                        <TextBlock Text="Enterprise Manager" 
+                                   FontSize="20" 
+                                   FontWeight="Medium"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Column="2" 
+                                Orientation="Horizontal">
+                        <!-- Notifications -->
+                        <Button Style="{StaticResource MaterialDesignIconButton}"
+                                Foreground="White"
+                                ToolTip="Notifications">
+                            <materialDesign:PackIcon Kind="Bell" Width="20" Height="20"/>
+                        </Button>
+
+                        <!-- Settings -->
+                        <Button Style="{StaticResource MaterialDesignIconButton}"
+                                Foreground="White"
+                                ToolTip="Settings">
+                            <materialDesign:PackIcon Kind="Cog" Width="20" Height="20"/>
+                        </Button>
+
+                        <!-- User Profile -->
+                        <Button Style="{StaticResource MaterialDesignIconButton}"
+                                Foreground="White"
+                                ToolTip="User Profile">
+                            <materialDesign:PackIcon Kind="Account" Width="20" Height="20"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <!-- Main Content Area -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <!-- Navigation Drawer -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Content Area -->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Navigation Drawer -->
+                <materialDesign:Card Grid.Column="0" 
+                                     x:Name="NavigationDrawer"
+                                     Width="280"
+                                     materialDesign:ElevationAssist.Elevation="Dp8"
+                                     Margin="0,0,8,0">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,16">
+                            <!-- Dashboard -->
+                            <Button x:Name="DashboardButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Dashboard">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ViewDashboard" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Dashboard" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Employees -->
+                            <Button x:Name="EmployeesButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Employees">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountGroup" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Employees" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Projects -->
+                            <Button x:Name="ProjectsButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Projects">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Briefcase" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Projects" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Departments -->
+                            <Button x:Name="DepartmentsButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Departments">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Domain" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Departments" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Reports -->
+                            <Button x:Name="ReportsButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Reports">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ChartLine" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Reports" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Audit Logs -->
+                            <Button x:Name="AuditLogsButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="AuditLogs">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="History" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Audit Logs" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Separator -->
+                            <Separator Margin="16,16,16,8"/>
+
+                            <!-- Settings -->
+                            <Button x:Name="SettingsButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Settings">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Settings" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Settings" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Help -->
+                            <Button x:Name="HelpButton"
+                                    Style="{StaticResource NavigationButtonStyle}"
+                                    Click="NavigationButton_Click"
+                                    Tag="Help">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="HelpCircle" 
+                                                             Width="20" Height="20" 
+                                                             Margin="0,0,16,0"/>
+                                    <TextBlock Text="Help" 
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </materialDesign:Card>
+
+                <!-- Main Content Frame -->
+                <Grid Grid.Column="1" Margin="8,0,8,0">
+                    <Frame x:Name="MainContentFrame" 
+                           NavigationUIVisibility="Hidden"
+                           Background="Transparent"/>
+                    
+                    <!-- Welcome Content (shown when no specific page is loaded) -->
+                    <materialDesign:Card x:Name="WelcomeCard" 
+                                         Padding="32"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         MaxWidth="600">
+                        <StackPanel HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Business" 
+                                                     Width="96" Height="96" 
+                                                     Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                     Margin="0,0,0,24"
+                                                     HorizontalAlignment="Center"/>
+                            
+                            <TextBlock Text="Welcome to Enterprise Manager" 
+                                       FontSize="28" 
+                                       FontWeight="Light"
+                                       Margin="0,0,0,16"
+                                       TextAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            
+                            <TextBlock Text="Your comprehensive solution for managing employees, projects, and organizational data. Select an option from the navigation menu to get started."
+                                       FontSize="16"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource MaterialDesignBodyLight}"
+                                       LineHeight="24"
+                                       TextAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            
+                            <Button Content="Get Started"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Margin="0,32,0,0"
+                                    HorizontalAlignment="Center"
+                                    Click="GetStartedButton_Click"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </Grid>
+            </Grid>
+
+            <!-- Status Bar -->
+            <materialDesign:ColorZone Grid.Row="2" 
+                                      Mode="PrimaryDark"
+                                      Padding="16,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" 
+                               x:Name="StatusTextBlock"
+                               Text="Ready" 
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1" 
+                               x:Name="UserTextBlock"
+                               Text="Admin User" 
+                               Foreground="White"
+                               VerticalAlignment="Center"
+                               Margin="0,0,16,0"/>
+
+                    <TextBlock Grid.Column="2" 
+                               x:Name="TimeTextBlock"
+                               Foreground="White"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </materialDesign:ColorZone>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>
